@@ -27,10 +27,25 @@ module.exports = {
 
     createCity: (req, res) => {
         let {name, rating, countryId} = req.body
+        console.log(req.body)
 
         sequelize.query(`
         INSERT INTO cities (name, rating, country_id)
         VALUES ('${name}', ${rating}, ${countryId})
+        `)
+        .then((dbRes) => {
+            res.status(200).send(dbRes[0])
+        })
+        .catch(err => console.log(err))
+    },
+
+    deleteCity: (req, res) => {
+        let {id} = req.params
+        console.log(req.params)
+
+        sequelize.query(`
+        DELETE FROM cities
+        WHERE city_id = '${id}';
         `)
         .then((dbRes) => {
             res.status(200).send(dbRes[0])
